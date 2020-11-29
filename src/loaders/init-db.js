@@ -4,9 +4,9 @@ import https from 'https'
 
 import { configs, sequelize } from '../config'
 import { UserService } from '../services';
-import { User } from '../models'
+import { User, Permission } from '../models'
 
-async function initModel(model){
+async function initUserList(model){
 		await https.get('https://next.json-generator.com/api/json/get/EJ8r7LUqY', (res) => {
 		    let body = '';
 		    res.on('data', (generated) => {
@@ -32,6 +32,11 @@ async function initModel(model){
 		});
 }
 
+async function initPermissionList(model) {
+	const permissions = ['read', 'write', 'delete', 'share', 'upload_files'];
+	permissions.map(perm => model.findOrCreate({where: { name: perm }}));
+}
+
 async function runDB(){
 		try {
 				await sequelize.authenticate();
@@ -40,9 +45,9 @@ async function runDB(){
         UserService.count().catch(err => {
           console.error(err)
           console.log('DB is empty, start filling from generated content')
-	        initModel(User)
+	        initUserList(User)
         })
-
+        initPermissionList(Permission)
 		} catch (error) {
 				console.error('Unable to connect to the database:', error)
 		}
