@@ -1,5 +1,5 @@
 import app from './app'
-import { runDB } from './loaders'
+import { runDB, logger } from './loaders'
 import { endPoints } from './api'
 
 import { configs } from './config'
@@ -8,7 +8,7 @@ const port = configs.PORT;
 
 export default function init(){
 	app.listen(port, () => {
-		console.log(`App listening at http://localhost:${port}`)
+		logger.info(`App listening at http://localhost:${port}`)
 		runDB()
 	})
 

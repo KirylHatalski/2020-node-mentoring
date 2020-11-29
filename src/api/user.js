@@ -1,38 +1,18 @@
-import { UserService as User } from '../services';
+import { UserService as User } from '../services'
+import { logger, loggingHandler } from '../loaders'
+
+const userRoutesHandler = callback => loggingHandler('User', callback)
 
 export default function userRoutes(app) {
+
 	app.route('/user/:id')
-		.get((req, res) => {
-			User.get(req.params.id)
-				.then(user => res.send(user))
-				.catch(() => res.sendStatus(400))
-		})
-		.delete((req, res) => {
-			User.deleteUser(req.params.id)
-				.then(() => res.sendStatus(200))
-	      .catch(() => res.sendStatus(400))
-		})
-		.patch((req, res) => {
-			User.patch(req.params.id, req.query)
-	      .then(() => res.sendStatus(200))
-	      .catch(() => res.sendStatus(400))
-    })
+		.get(userRoutesHandler((req, res) => User.get(req.params.id)))
+		.delete(userRoutesHandler((req, res) => User.deleteUser(req.params.id)))
+		.patch(userRoutesHandler((req, res) => User.patch(req.params.id, req.query)))
 
-	app.post('/user', (req, res) => {
-		User.add(req.query)
-			.then(() => res.sendStatus(200))
-      .catch(() => res.sendStatus(400))
-	})
+	app.post('/user', userRoutesHandler((req, res) => User.add(req.query)))
 
-	app.get('/users', (req, res) => {
-	  User.getAll()
-      .then(users => res.send(users))
-      .catch(() => res.sendStatus(400))
-	});
+	app.get('/users', userRoutesHandler((req, res) => User.getAll()));
 
-	app.get('/users/:limit', (req, res) => {
-		User.getAllLimit(req.params.limit, req.query || null)
-      .then(users => res.send(users))
-      .catch(() => res.sendStatus(400))
-	})
+	app.get('/users/:limit', userRoutesHandler((req, res) => User.getAllLimit(req.params.limit, req.query || null)))
 }
