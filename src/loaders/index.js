@@ -1,4 +1,5 @@
 import { runDB } from './init-db'
+import { checkToken } from './jwt'
 import { pureLogger, logger, loggingHandler } from './logger'
 
-export { runDB, pureLogger, logger, loggingHandler }
+export { runDB, pureLogger, logger, loggingHandler, checkToken }
