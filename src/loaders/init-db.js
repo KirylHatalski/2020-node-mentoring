@@ -8,7 +8,7 @@ import { User, Permission } from '../models'
 import { logger } from '../loaders';
 
 async function initUserList(model){
-		await https.get('https://next.json-generator.com/api/json/get/EJ0BD365t', (res) => {
+		await https.get('https://next.json-generator.com/api/json/get/NJRbxyC5K', (res) => {
 		    let body = '';
 		    res.on('data', (generated) => {
 		        body+=generated;

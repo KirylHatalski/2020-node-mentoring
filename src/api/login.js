@@ -1,13 +1,12 @@
-//import { UserService as User } from '../services'
-import jwt from 'jsonwebtoken'
+import { LoginService as Login } from '../services'
 import { logger, loggingHandler, checkToken } from '../loaders'
 
 //const userRoutesHandler = callback => loggingHandler('User', callback)
 
 export default function loginRoute(app) {
 	app.post('/login', (req, res) => {
-		let token = jwt.sign({ "sub": `#idhere`, isDeleted: false }, 'secret', { expiresIn: 60 })
-		res.send(token);
+		Login.login(req.body.login, req.body.password)
+			.then(token => res.send(token))
+			.catch(err => {console.log(err);res.status(403).send(err)})
 	});
-
 }

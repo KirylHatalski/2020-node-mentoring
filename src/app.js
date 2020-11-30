@@ -1,11 +1,12 @@
-import express from 'express';
+import express from 'express'
+import bodyParser from 'body-parser'
 import { pureLogger, logger } from './loaders'
 import { format, transports } from 'winston'
 import cors from 'cors'
 
 const app = express()
 app.use(cors())
-
+app.use(bodyParser.json())
 app.use(pureLogger)
 
 if (process.env.NODE_ENV !== 'production') {

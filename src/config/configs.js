@@ -7,5 +7,6 @@ export const configs = {
 				host: 'localhost',
 				dialect: 'postgres'
 			}
-		}
+		},
+	SECRET_TOKEN: 'multipassport'
 }
